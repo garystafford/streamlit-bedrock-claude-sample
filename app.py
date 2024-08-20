@@ -118,7 +118,7 @@ def main():
 
         st.divider()
 
-        submitted = st.form_submit_button("Generate message")
+        submitted = st.form_submit_button("Submit")
 
         if submitted:
             with st.spinner():
