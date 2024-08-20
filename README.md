@@ -16,7 +16,7 @@ sh ./env_setup.sh
 
 ## Authenticate to AWS
 
-Provided your AWS credential on the commandline or authenticate in normal manner before starting the application.
+Provided your AWS credential on the commandline or authenticate in your normal way before starting the application.
 
 ```sh
 export AWS_ACCESS_KEY_ID="<YOUR_AWS_ACCESS_KEY_ID>"
