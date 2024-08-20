@@ -1,3 +1,7 @@
+# Simple Streamlit/Bedrock/Anthropic Claude 3 application example
+# Author: Gary A. Stafford
+# Date: 2024-08-20
+
 import datetime
 import json
 import logging
@@ -88,14 +92,14 @@ def main():
             label="User (Task)",
             value="""I am a busy professional who is worried about my poor eating habits. I will be working late tonight. Provide a dinner suggestion I can prepare.
             
-    Consider all of the following requirements:
+Consider all of the following requirements:
 
-    <requirements>
-        - Include recipe with ingredients, preparation instructions, recommended serving size
-        - Estimate calorie count per serving
-        - Must take less than 45 minutes to prepare
-        - Must make no more than 2 servings
-    </requirements>""",
+<requirements>
+    - Include recipe with ingredients, preparation instructions, recommended serving size
+    - Estimate calorie count per serving
+    - Must take less than 45 minutes to prepare
+    - Must make no more than 2 servings
+</requirements>""",
         )
 
         st.divider()
