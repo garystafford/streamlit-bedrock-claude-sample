@@ -6,46 +6,43 @@ import boto3
 import streamlit as st
 from botocore.exceptions import ClientError
 
+# Configure logging
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
-def invoke_bedrock(
-    model_id,
-    max_tokens,
-    temperature,
-    top_p,
-    top_k,
-    system_prompt,
-    user_prompt,
+def setup_bedrock_client():
+    """Setup the Bedrock client."""
+    return boto3.client(service_name="bedrock-runtime")
+
+
+def create_request_body(
+    max_tokens, temperature, top_p, top_k, system_prompt, user_prompt
 ):
-    """
-    Call the Anthropic Claude Messages API via Amazon Bedrock.
-    Reference: https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html
-    """
+    """Create the request body for the Bedrock API."""
+    user_message = {
+        "role": "user",
+        "content": user_prompt,
+    }
+    messages = [user_message]
 
-    try:
-
-        bedrock_runtime = boto3.client(service_name="bedrock-runtime")
-
-        user_message = {
-            "role": "user",
-            "content": user_prompt,
+    body = json.dumps(
+        {
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": max_tokens,
+            "temperature": temperature,
+            "top_p": top_p,
+            "top_k": top_k,
+            "system": system_prompt,
+            "messages": messages,
         }
-        messages = [user_message]
+    )
+    return body
 
-        body = json.dumps(
-            {
-                "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": max_tokens,
-                "temperature": temperature,
-                "top_p": top_p,
-                "top_k": top_k,
-                "system": system_prompt,
-                "messages": messages,
-            }
-        )
 
+def invoke_bedrock(bedrock_runtime, model_id, body):
+    """Invoke the Bedrock model."""
+    try:
         response = bedrock_runtime.invoke_model(body=body, modelId=model_id)
         response_body = json.loads(response.get("body").read())
         logger.info(json.dumps(response_body, indent=4))
@@ -54,14 +51,27 @@ def invoke_bedrock(
         message = err.response["Error"]["Message"]
         logger.error("A client error occurred: %s", message)
         st.error(f"An error occurred: {message}")
+        return None
+
+
+def display_response(response, analysis_time):
+    """Display the response from the model."""
+    if response:
+        st.text_area(
+            height=500,
+            label="Model response",
+            value=response.get("content")[0].get("text"),
+        )
+
+        input_tokens = f"Input tokens: {response.get('usage').get('input_tokens')}"
+        output_tokens = f"Output tokens: {response.get('usage').get('output_tokens')}"
+        analysis_time = f"Response time: {analysis_time:.2f} seconds"
+        stats = f"{input_tokens}  |  {output_tokens} |  {analysis_time}"
+        st.text(stats)
 
 
 def main():
-    response = None
-    analysis_time = 0.0
-
     st.set_page_config(page_title="Streamlit-Bedrock-Anthropic Application Example")
-
     st.markdown("## Streamlit/Bedrock Application Example")
 
     with st.form("my_form"):
@@ -123,8 +133,8 @@ def main():
         if submitted:
             with st.spinner():
                 start_time = datetime.datetime.now()
-                response = invoke_bedrock(
-                    model_id,
+                bedrock_runtime = setup_bedrock_client()
+                body = create_request_body(
                     max_tokens,
                     temperature,
                     top_p,
@@ -132,23 +142,11 @@ def main():
                     system_prompt,
                     user_prompt,
                 )
+                response = invoke_bedrock(bedrock_runtime, model_id, body)
                 end_time = datetime.datetime.now()
                 analysis_time = (end_time - start_time).total_seconds()
-
-    if response is not None:
-        st.text_area(
-            height=500,
-            label="Model response",
-            value=response.get("content")[0].get("text"),
-        )
-
-        input_tokens = f"Input tokens: {response.get('usage').get('input_tokens')}"
-        output_tokens = f"Output tokens: {response.get('usage').get('output_tokens')}"
-        analysis_time = f"Response time: {analysis_time:.2f} seconds"
-        stats = f"{input_tokens}  |  {output_tokens} |  {analysis_time}"
-        st.text(stats)
-
-    response = None
+                if response:
+                    display_response(response, analysis_time)
 
 
 if __name__ == "__main__":
