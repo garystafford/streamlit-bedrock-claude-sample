@@ -77,6 +77,14 @@ def display_response(response, analysis_time):
 
 def main():
     st.set_page_config(page_title="Streamlit-Bedrock-Anthropic Application Example")
+
+    hide_decoration_bar_style = """
+    <style>
+        header {visibility: hidden;}
+    </style>"""
+
+    st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
+
     st.markdown("## Streamlit/Bedrock Application Example")
 
     with st.form("my_form"):
