@@ -56,18 +56,17 @@ def invoke_bedrock(bedrock_runtime, model_id, body):
 
 def display_response(response, analysis_time):
     """Display the response from the model."""
-    if response:
-        st.text_area(
-            height=500,
-            label="Model response",
-            value=response.get("content")[0].get("text"),
-        )
+    st.text_area(
+        height=500,
+        label="Model response",
+        value=response.get("content")[0].get("text"),
+    )
 
-        input_tokens = f"Input tokens: {response.get('usage').get('input_tokens')}"
-        output_tokens = f"Output tokens: {response.get('usage').get('output_tokens')}"
-        analysis_time = f"Response time: {analysis_time:.2f} seconds"
-        stats = f"{input_tokens}  |  {output_tokens} |  {analysis_time}"
-        st.text(stats)
+    input_tokens = f"Input tokens: {response.get('usage').get('input_tokens')}"
+    output_tokens = f"Output tokens: {response.get('usage').get('output_tokens')}"
+    analysis_time = f"Response time: {analysis_time:.2f} seconds"
+    stats = f"{input_tokens}  |  {output_tokens} |  {analysis_time}"
+    st.text(stats)
 
 
 def main():
