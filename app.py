@@ -1,3 +1,4 @@
+import datetime
 import json
 import logging
 
@@ -57,6 +58,7 @@ def invoke_bedrock(
 
 def main():
     response = None
+    analysis_time = 0.0
 
     st.set_page_config(page_title="Streamlit-Bedrock-Anthropic Application Example")
 
@@ -120,6 +122,7 @@ def main():
 
         if submitted:
             with st.spinner():
+                start_time = datetime.datetime.now()
                 response = invoke_bedrock(
                     model_id,
                     max_tokens,
@@ -129,6 +132,8 @@ def main():
                     system_prompt,
                     user_prompt,
                 )
+                end_time = datetime.datetime.now()
+                analysis_time = (end_time - start_time).total_seconds()
 
     if response is not None:
         st.text_area(
@@ -139,8 +144,9 @@ def main():
 
         input_tokens = f"Input tokens: {response.get('usage').get('input_tokens')}"
         output_tokens = f"Output tokens: {response.get('usage').get('output_tokens')}"
-        tokens = f"{input_tokens}  |  {output_tokens}"
-        st.text(tokens)
+        analysis_time = f"Response time: {analysis_time:.2f} seconds"
+        stats = f"{input_tokens}  |  {output_tokens} |  {analysis_time}"
+        st.text(stats)
 
     response = None
 
