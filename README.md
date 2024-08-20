@@ -1,4 +1,4 @@
-# Streamlit, Amazon Bedrock, Anthropic Claude 3 Example Application
+# Streamlit, Bedrock, Anthropic Claude Example App
 
 Simple [Streamlit](https://streamlit.io/) application that uses the Amazon Bedrock API to call an [Anthropic Claude 3](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html) foundation model of your choice.
 
@@ -52,4 +52,4 @@ Preview of the application.
 
 ![preview1](screengrabs/streamlit_app_1_50prcnt.png)
 
-![preview2](screengrabs/streamlit_app_2_50prcnt.png)
+![preview2](screengrabs/streamlit_app_2_50prcnt_v2.png)
