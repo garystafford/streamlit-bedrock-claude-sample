@@ -8,7 +8,9 @@ from botocore.exceptions import ClientError
 
 # Configure logging
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 
 
 def setup_bedrock_client():
@@ -64,8 +66,8 @@ def display_response(response, analysis_time):
 
     input_tokens = f"Input tokens: {response.get('usage').get('input_tokens')}"
     output_tokens = f"Output tokens: {response.get('usage').get('output_tokens')}"
-    analysis_time = f"Response time: {analysis_time:.2f} seconds"
-    stats = f"{input_tokens}  |  {output_tokens} |  {analysis_time}"
+    analysis_time_str = f"Response time: {analysis_time:.2f} seconds"
+    stats = f"{input_tokens}  |  {output_tokens} |  {analysis_time_str}"
     st.text(stats)
 
 
@@ -146,6 +148,8 @@ def main():
                 analysis_time = (end_time - start_time).total_seconds()
                 if response:
                     display_response(response, analysis_time)
+                else:
+                    logger.error("Failed to get a valid response from the model.")
 
 
 if __name__ == "__main__":
