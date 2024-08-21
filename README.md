@@ -64,7 +64,9 @@ streamlit run app.py \
 
 ## Application Preview
 
-Preview of the application using dark mode example run command.
+Video preview of application on [YouTube](https://youtu.be/TpCK2gXBgys?si=QGupf4gQr34keDHv).
+
+Screengrabs of the application using dark mode example run command.
 
 ![preview1](screengrabs/streamlit_app_1_50prcnt_v2.png)
 
