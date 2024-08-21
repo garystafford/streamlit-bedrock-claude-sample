@@ -25,7 +25,17 @@ def setup_bedrock_client():
 def create_request_body(
     max_tokens, temperature, top_p, top_k, system_prompt, user_prompt
 ):
-    """Create the request body for the Bedrock API."""
+    """Create the request body for the Bedrock API.
+    Args:
+        max_tokens (int): Maximum number of tokens to generate.
+        temperature (float): Temperature for sampling.
+        top_p (float): Top P sampling.
+        top_k (int): Top K sampling.
+        system_prompt (str): System prompt.
+        user_prompt (str): User prompt.
+    Returns:
+        str: JSON request body.
+    """
     user_message = {
         "role": "user",
         "content": user_prompt,
@@ -47,7 +57,14 @@ def create_request_body(
 
 
 def invoke_bedrock(bedrock_runtime, model_id, body):
-    """Invoke the Bedrock model."""
+    """Invoke the Bedrock model.
+    Args:
+        bedrock_runtime (boto3.client): Bedrock runtime client.
+        model_id (str): Bedrock model ID.
+        body (str): JSON request body.
+    Returns:
+        dict: JSON response body.
+    """
     try:
         response = bedrock_runtime.invoke_model(body=body, modelId=model_id)
         response_body = json.loads(response.get("body").read())
@@ -55,13 +72,19 @@ def invoke_bedrock(bedrock_runtime, model_id, body):
         return response_body
     except ClientError as err:
         message = err.response["Error"]["Message"]
-        logger.error("A client error occurred: %s", message)
+        logger.error(f"A client error occurred: {message}")
         st.error(f"An error occurred: {message}")
         return None
 
 
 def display_response(response, analysis_time):
-    """Display the response from the model."""
+    """Display the response from the model.
+    Args:
+        response (dict): JSON response body.
+        analysis_time (float): Time to analyze the response.
+    Returns:
+        None
+    """
     st.text_area(
         height=500,
         label="Model response",
@@ -85,7 +108,10 @@ def main():
 
     st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
 
-    st.markdown("## Streamlit/Bedrock Application Example")
+    st.markdown("### Streamlit-Bedrock-Anthropic Claude 3 Example")
+    st.markdown(
+        "Example of making an inference request to Anthropic Claude 3 foundation model on Amazon Bedrock."
+    )
 
     with st.form("my_form"):
         st.markdown("Model prompts")
