@@ -116,7 +116,7 @@ def main():
     )
 
     with st.form("my_form"):
-        st.markdown("Model prompts")
+        st.markdown("###### Prompts")
         system_prompt = st.text_area(
             height=50,
             label="System (Optional)",
@@ -142,8 +142,7 @@ Think step-by-step before you choose a meal idea.
         )
 
         st.divider()
-
-        st.markdown("Model parameters")
+        st.markdown("###### Model")
 
         model_id = st.selectbox(
             "Model ID",
@@ -155,6 +154,9 @@ Think step-by-step before you choose a meal idea.
             ],
             index=0,
         )
+
+        st.divider()
+        st.markdown("###### Parameters")
 
         row1 = st.columns([2, 2])
         max_tokens = row1[0].slider(
