@@ -68,6 +68,4 @@ Video preview of application on [YouTube](https://youtu.be/TpCK2gXBgys?si=QGupf4
 
 Screengrabs of the application using dark mode example run command.
 
-![preview1](screengrabs/streamlit_app_1_50prcnt_v2.png)
-
-![preview2](screengrabs/streamlit_app_2_50prcnt_v2.png)
+![preview1](./screengrabs/streamlit_app_50prcnt.png)
