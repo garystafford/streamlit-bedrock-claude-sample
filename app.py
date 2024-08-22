@@ -127,7 +127,7 @@ def main():
             height=350,
             label="User (Required)",
             value="""I am a busy professional who is worried about my poor eating habits. I will be working late tonight. Provide a dinner suggestion I can prepare.
-            
+
 Consider all of the following requirements:
 
 <requirements>
