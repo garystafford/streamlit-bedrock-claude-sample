@@ -23,7 +23,7 @@ def setup_bedrock_client():
 
 
 def create_request_body(
-    max_tokens, temperature, top_p, top_k, system_prompt, user_prompt
+    max_tokens, temperature, top_p, top_k, system_prompt, user_prompt, assistant_prompt
 ):
     """Create the request body for the Bedrock API.
     Args:
@@ -33,6 +33,7 @@ def create_request_body(
         top_k (int): Top K sampling.
         system_prompt (str): System prompt.
         user_prompt (str): User prompt.
+        assistant_prompt (str): Assistant prompt.
     Returns:
         str: JSON request body.
     """
@@ -41,6 +42,13 @@ def create_request_body(
         "content": user_prompt,
     }
     messages = [user_message]
+
+    if assistant_prompt:
+        assistant_message = {
+            "role": "assistant",
+            "content": assistant_prompt,
+        }
+        messages.append(assistant_message)
 
     body = json.dumps(
         {
@@ -88,7 +96,7 @@ def display_response(response, analysis_time):
         None
     """
     st.text_area(
-        height=900,
+        height=500,
         label="Model response",
         value=response.get("content")[0].get("text"),
     )
@@ -141,6 +149,12 @@ Think step-by-step before you choose a meal idea.
 """,
         )
 
+        assistant_prompt = st.text_area(
+            height=50,
+            label="Assistant (Optional)",
+            value="",
+        )
+
         st.divider()
         st.markdown("###### Model")
 
@@ -160,7 +174,7 @@ Think step-by-step before you choose a meal idea.
 
         row1 = st.columns([2, 2])
         max_tokens = row1[0].slider(
-            "Max tokens (depends on model)",
+            "Max Tokens (Depends on model)",
             min_value=1,
             max_value=8192,
             value=1000,
@@ -191,6 +205,7 @@ Think step-by-step before you choose a meal idea.
                     top_k,
                     system_prompt,
                     user_prompt,
+                    assistant_prompt,
                 )
                 response = invoke_bedrock(bedrock_runtime, model_id, body)
                 end_time = datetime.datetime.now()
