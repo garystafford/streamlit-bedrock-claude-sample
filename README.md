@@ -69,3 +69,60 @@ Video preview of application on [YouTube](https://youtu.be/TpCK2gXBgys?si=QGupf4
 Screengrabs of the application using dark mode example run command.
 
 ![preview1](./screengrabs/streamlit_app_50prcnt.png)
+
+## Prompt Examples
+
+### Example 1
+
+System
+
+```text
+You are an Auctioneer.
+```
+
+User
+
+```text
+Sell me a used car with the following specifications.
+
+<specifications>
+  - 2015 Chevrolet Impala LT
+  - 57,257 miles
+  - 6-Speed Automatic Transmission
+  - FWD
+  - Grey Exterior Color
+  - Black Interior Color
+  - 22/31 MPG City/Highway
+  - Only one previous owner
+  - Clean CARFAX report
+</specifications>
+
+Don't provide details about the car that are not part of the specifications provided.
+```
+
+Assistant
+
+```text
+```
+
+### Example 2
+
+Reference: <https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response#how-to-prefill-claudes-response>
+
+System
+
+```text
+```
+
+User
+
+```text
+What is your favorite color?
+```
+
+Assistant
+
+```text
+As an AI assistant, I don't have a favorite color, But if I had to pick, it would be green because
+```
+
