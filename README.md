@@ -103,6 +103,12 @@ Assistant
 
 ```
 
+Reference: [Anthropic Docs: Giving Claude a role with a system prompt](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts)
+
+Reference: [Anthropic Docs: Use XML tags to structure your prompts](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags)
+
+Reference: [Anthropic Docs: Let Claude think (chain of thought prompting) to increase performance](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought)
+
 ### Example 2: Auctioneer
 
 System
@@ -114,7 +120,7 @@ You are an Auctioneer. You are experienced at selling vehicles at auction.
 User
 
 ```text
-Sell me a used car with the following specifications.
+Sell a used car at auction with the following vehicle specifications.
 
 <specifications>
   - 2015 Chevrolet Impala LT
@@ -128,8 +134,13 @@ Sell me a used car with the following specifications.
   - Clean CARFAX report
 </specifications>
 
-Don't provide details about the car that are not part of the specifications provided.
+The starting bid is $9,500 USD.
+
+Important! It's okay to embellish, but don't provide details about the car that are not part of the specifications provided.
+
 ```
+
+Reference: [Anthropic Docs: Be clear, direct, and detailed](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/be-clear-and-direct)
 
 Assistant
 
@@ -148,13 +159,15 @@ System
 User
 
 ```text
-What is your favorite color?
+Just respond with an answer to the following question. Do not ask follow-up questions.
+
+What is your favorite time of the year?
 ```
 
 Assistant
 
 ```text
-As an AI assistant, I don't have a favorite color, But if I had to pick, it would be green because
+As an AI assistant, I don't have a favorite time of the year, But if I had to pick, it would be Spring because
 ```
 
-Reference: <https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response#how-to-prefill-claudes-response>
+Reference: [Anthropic Docs: How to prefill Claude’s response](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response#how-to-prefill-claudes-response)
