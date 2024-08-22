@@ -72,12 +72,43 @@ Screengrabs of the application using dark mode example run command.
 
 ## Prompt Examples
 
-### Example 1
+### Example 1: Healthy Eating CoT
 
 System
 
 ```text
-You are an Auctioneer.
+You are a trained dietitian and nutritionist. You are experienced at providing advice on healthy eating habits.
+```
+
+User
+
+```text
+I am a busy professional who is worried about my poor eating habits. I will be working late tonight. Provide a dinner suggestion I can prepare.
+
+Consider all of the following requirements:
+
+<requirements>
+    - Include recipe with ingredients, preparation instructions, recommended serving size
+    - Estimate calorie count per serving
+    - Must take less than 45 minutes to prepare
+    - Must make no more than 2 servings
+</requirements>
+
+Think step-by-step before you choose a meal idea.
+```
+
+Assistant
+
+```text
+
+```
+
+### Example 2: Auctioneer
+
+System
+
+```text
+You are an Auctioneer. You are experienced at selling vehicles at auction.
 ```
 
 User
@@ -103,15 +134,15 @@ Don't provide details about the car that are not part of the specifications prov
 Assistant
 
 ```text
+
 ```
 
-### Example 2
-
-Reference: <https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response#how-to-prefill-claudes-response>
+### Example 3: Using Assistant Prompt
 
 System
 
 ```text
+
 ```
 
 User
@@ -126,3 +157,4 @@ Assistant
 As an AI assistant, I don't have a favorite color, But if I had to pick, it would be green because
 ```
 
+Reference: <https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response#how-to-prefill-claudes-response>
