@@ -1,6 +1,6 @@
 # Simple Streamlit/Bedrock/Anthropic Claude 3 application example
 # Author: Gary A. Stafford
-# Date: 2024-08-20
+# Date: 2024-08-21
 
 import datetime
 import json
@@ -72,7 +72,7 @@ def invoke_bedrock(bedrock_runtime, model_id, body):
         return response_body
     except ClientError as err:
         message = err.response["Error"]["Message"]
-        logger.error(f"A client error occurred: {message}")
+        logger.error("A client error occurred: %s", message)
         st.error(f"An error occurred: {message}")
         return None
 
@@ -86,7 +86,7 @@ def display_response(response, analysis_time):
         None
     """
     st.text_area(
-        height=500,
+        height=900,
         label="Model response",
         value=response.get("content")[0].get("text"),
     )
