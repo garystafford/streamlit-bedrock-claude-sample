@@ -1,6 +1,6 @@
-# Simple Streamlit/Bedrock/Anthropic Claude 3 application example
+# Simple Streamlit/Bedrock/Anthropic Claude 3 text generation example
 # Author: Gary A. Stafford
-# Date: 2024-08-21
+# Date: 2024-08-22
 
 import datetime
 import json
@@ -53,6 +53,8 @@ def create_request_body(
             "messages": messages,
         }
     )
+    logger.info(json.dumps(json.loads(body), indent=4))
+
     return body
 
 
@@ -73,7 +75,7 @@ def invoke_bedrock(bedrock_runtime, model_id, body):
     except ClientError as err:
         message = err.response["Error"]["Message"]
         logger.error("A client error occurred: %s", message)
-        st.error(f"An error occurred: {message}")
+        st.error(f"A client error occurred: {message}")
         return None
 
 
@@ -110,20 +112,20 @@ def main():
 
     st.markdown("### Streamlit-Bedrock-Anthropic Claude 3 Example")
     st.markdown(
-        "Example of making an inference request to Anthropic Claude 3 foundation model on Amazon Bedrock."
+        "Example of making an inference request to an Anthropic Claude 3 foundation model on Amazon Bedrock for text generation."
     )
 
     with st.form("my_form"):
         st.markdown("Model prompts")
         system_prompt = st.text_area(
             height=50,
-            label="System (Role)",
-            value="You are a trained dietitian and nutritionist. You provide advice on healthy eating.",
+            label="System (Optional)",
+            value="You are a trained dietitian and nutritionist. You are experienced at providing advice on healthy eating habits.",
         )
 
         user_prompt = st.text_area(
-            height=300,
-            label="User (Task)",
+            height=350,
+            label="User (Required)",
             value="""I am a busy professional who is worried about my poor eating habits. I will be working late tonight. Provide a dinner suggestion I can prepare.
             
 Consider all of the following requirements:
@@ -133,7 +135,10 @@ Consider all of the following requirements:
     - Estimate calorie count per serving
     - Must take less than 45 minutes to prepare
     - Must make no more than 2 servings
-</requirements>""",
+</requirements>
+
+Think step-by-step before you choose a meal idea.
+""",
         )
 
         st.divider()
@@ -153,7 +158,11 @@ Consider all of the following requirements:
 
         row1 = st.columns([2, 2])
         max_tokens = row1[0].slider(
-            "Max tokens", min_value=1, max_value=2000, value=1000, step=1
+            "Max tokens (depends on model)",
+            min_value=1,
+            max_value=8192,
+            value=1000,
+            step=1,
         )
         temperature = row1[1].slider(
             "Temperature", min_value=0.0, max_value=1.0, value=0.2, step=0.1
@@ -161,15 +170,15 @@ Consider all of the following requirements:
 
         row2 = st.columns([2, 2])
         top_p = row2[0].slider(
-            "Top P", min_value=0.0, max_value=1.0, value=0.2, step=0.1
+            "Top P", min_value=0.0, max_value=1.0, value=0.99, step=0.01
         )
-        top_k = row2[1].slider("Top K", min_value=1, max_value=500, value=100, step=1)
+        top_k = row2[1].slider("Top K", min_value=1, max_value=500, value=250, step=1)
 
         st.divider()
 
         submitted = st.form_submit_button("Submit")
 
-        if submitted:
+        if submitted and user_prompt:
             with st.spinner():
                 start_time = datetime.datetime.now()
                 bedrock_runtime = setup_bedrock_client()
@@ -188,6 +197,7 @@ Consider all of the following requirements:
                     display_response(response, analysis_time)
                 else:
                     logger.error("Failed to get a valid response from the model.")
+                    st.error("Failed to get a valid response from the model.")
 
 
 if __name__ == "__main__":
