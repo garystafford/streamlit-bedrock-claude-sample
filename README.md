@@ -171,3 +171,7 @@ As an AI assistant, I don't have a favorite time of the year, But if I had to pi
 ```
 
 Reference: [Anthropic Docs: How to prefill Claude’s response](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response#how-to-prefill-claudes-response)
+
+---
+
+_The contents of this repository represent my viewpoints and not of my past or current employers, including Amazon Web Services (AWS). All third-party libraries, modules, plugins, and SDKs are the property of their respective owners._
